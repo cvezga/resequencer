@@ -1,17 +1,11 @@
 package sequencer.tree;
 
 import org.junit.jupiter.api.Test;
-import sequencer.DocSeqComparator;
 import sequencer.Document;
 import sequencer.DocumentIndex;
-import sequencer.Sequence;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import static java.lang.System.out;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -21,7 +15,7 @@ public class DeleteDocumentTest extends DocumentTest {
 
 
   @Test
-  public void shouldDeleteAndResequence(){
+  public void shouldDeleteAndResequence() {
 
     Node root = TreeDocumentBuilder.build(documents);
     assertNotNull(documents);
