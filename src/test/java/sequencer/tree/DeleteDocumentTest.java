@@ -15,7 +15,7 @@ public class DeleteDocumentTest extends DocumentTest {
 
 
   @Test
-  public void shouldDeleteAndResequence() {
+  public void shouldDeleteAndSequence() {
 
     Node root = TreeDocumentBuilder.build(documents);
     assertNotNull(documents);
