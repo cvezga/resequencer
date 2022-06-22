@@ -13,7 +13,6 @@ public class DeleteDocumentTest extends DocumentTest {
 
   List<Document> documents = getDocuments();
 
-
   @Test
   public void shouldDeleteAndSequence() {
 
@@ -29,6 +28,7 @@ public class DeleteDocumentTest extends DocumentTest {
     doc21.setActive(false);
     doc313.setActive(false);
 
+    //Create new sequence
     List<Document> documents2 = SequenceDocumentBuilder.getSequencedDocuments(root);
 
     DocumentIndex index2 = new DocumentIndex(documents2);
