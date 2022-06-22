@@ -39,6 +39,8 @@ public class ComparatorTest {
 
     List<Document> documents = SequenceDocumentBuilder.getSequencedDocuments(root);
 
+    out.println("Document size: "+documents.size());
+
     out.println("===== Reversed List =====");
     Collections.reverse(documents);
     //documents.stream().forEach( d -> out.println(d.getSequenceString()));
