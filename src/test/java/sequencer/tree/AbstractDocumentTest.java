@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class DocumentTest {
+public abstract class AbstractDocumentTest {
 
   protected List<Document> getDocuments(){
     List<Document> documents = new ArrayList<>();

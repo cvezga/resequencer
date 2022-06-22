@@ -9,7 +9,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class DeleteDocumentTest extends DocumentTest {
+public class DeleteDocumentTest extends AbstractDocumentTest {
 
   List<Document> documents = getDocuments();
 

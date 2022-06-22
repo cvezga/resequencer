@@ -2,16 +2,12 @@ package sequencer.tree;
 
 import sequencer.DocSeqComparator;
 import sequencer.Document;
-import sequencer.Sequence;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
 public class TreeDocumentBuilder {
-
-  private static final int DEEPEST_LEVEL = 10;
 
   public static Node build(List<Document> documents) {
     Node root = new Node(0, null);
@@ -41,6 +37,5 @@ public class TreeDocumentBuilder {
 
     return root;
   }
-
 
 }

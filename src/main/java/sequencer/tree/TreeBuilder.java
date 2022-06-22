@@ -2,8 +2,6 @@ package sequencer.tree;
 
 import sequencer.Document;
 
-import java.util.Random;
-
 public class TreeBuilder {
 
   private int id = 999;
@@ -23,8 +21,7 @@ public class TreeBuilder {
   }
 
   private int nextId() {
-    this.id += 1;
-    return this.id;
+    return ++this.id;
   }
 
   private void addChildren(Node node, int level, int deepLevel, int numberOfLeafNodesPerLevel) {

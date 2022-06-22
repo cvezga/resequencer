@@ -1,43 +1,38 @@
 package sequencer.tree;
 
 import sequencer.Document;
-import sequencer.Sequence;
+import sequencer.Sequencer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SequenceDocumentBuilder {
 
-  private static final int DEEPEST_LEVEL = 10;
+  private static final int DEEPEST_LEVEL = 200;
 
   public static List<Document> getSequencedDocuments(Node root){
-    int[] sequenceIndex = new int[DEEPEST_LEVEL];
+    Sequencer sequencer = new Sequencer(DEEPEST_LEVEL);
     List<Document> documents = new ArrayList<>();
     for(Node node : root.getChildNodes()){
-      addSequence(documents, sequenceIndex, node);
+      addSequence(documents, sequencer, node);
     }
 
     return documents;
   }
 
-  private static void addSequence(List<Document> documents, int[] sequenceIndex, Node node) {
+  private static void addSequence(List<Document> documents, Sequencer sequencer, Node node) {
     if(!node.getDocument().isActive()) return;
-    if(sequenceIndex[node.getLevel()]>0){
-      cleanSequenceIndex(sequenceIndex,node.getLevel());
+    if(sequencer.getValue(node.getLevel())>0){
+      sequencer.cleanSequence(node.getLevel());
     }
-    sequenceIndex[node.getLevel()-1]++;
+    sequencer.increaseLevel(node.getLevel()-1);
     Document doc = node.getDocument();
-    doc.setSequence(new Sequence(sequenceIndex));
+    doc.setSequence(sequencer.getSequence());
     documents.add(doc);
     if(node.getChildCount()>0){
-      node.getChildNodes().stream().forEach( child -> addSequence(documents, sequenceIndex, child));
+      node.getChildNodes().stream().forEach( child -> addSequence(documents, sequencer, child));
     }
   }
 
-  private static void cleanSequenceIndex(int[] sequenceIndex, int level) {
-    while(level<sequenceIndex.length && sequenceIndex[level]>0){
-      sequenceIndex[level++]=0;
-    }
-  }
 
 }

@@ -6,17 +6,15 @@ import sequencer.tree.SequenceBuilder;
 import sequencer.tree.SequenceDocumentBuilder;
 import sequencer.tree.TreeBuilder;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static java.lang.System.out;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ComparatorTest {
 
   @Test
-  public void orderTest() {
+  public void orderSequenceTest() {
 
     Node root = new TreeBuilder().build(200_000,3,5);
 
@@ -24,13 +22,13 @@ public class ComparatorTest {
 
     out.println("===== Reversed List =====");
     Collections.reverse(sequences);
-    sequences.stream().forEach( s -> out.println(s.getSequenceString()));
+    //sequences.stream().forEach( s -> out.println(s.getSequenceString()));
 
     out.println("===== Sorted List =====");
     long t = System.currentTimeMillis();
     Collections.sort(sequences, new SeqComparator());
     long tt = System.currentTimeMillis() - t;
-    sequences.stream().forEach( s -> out.println(s.getSequenceString()));
+    //sequences.stream().forEach( s -> out.println(s.getSequenceString()));
     out.println("Sort took: "+tt+"ms");
   }
 
