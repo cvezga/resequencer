@@ -1,38 +1,43 @@
 package sequencer.tree;
 
-import sequencer.Document;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Stack;
+import java.util.function.Function;
 
-public class TreeBuilder {
+public class TreeBuilder<T> {
 
-  private int id = 999;
+  public Node<T> build(List<T> list, Function<T, String> stringSequenceSupplier) {
+    Node root = new Node(new Sequence(null), null);
 
-  public  Node build(int numberOfParentNodes, int deepLevel, int numberOfLeafNodesPerLevel){
-    Node root = new Node(0, null);
+    List<Node<T>> nodes = new ArrayList<>();
+    for (T t : list) {
+      String stringSequence = stringSequenceSupplier.apply(t);
+      Sequence sequence = new Sequence(stringSequence);
+      Node<T> n = new Node(sequence, t);
+      nodes.add(n);
+    }
 
-    for(int i=0; i<numberOfParentNodes; i++){
-      Node node = new Node(1, new Document(nextId()));
-      root.addChild(node);
-      for(int j=0; j<deepLevel; j++) {
-        addChildren(node, 2, deepLevel, numberOfLeafNodesPerLevel);
+    //Sort documents by its sequence
+    Collections.sort(nodes, new NodeComparator());
+
+    Stack<Node> stack = new Stack<>();
+    stack.push(root);
+
+    for (Node<T> node : nodes) {
+      while (!stack.isEmpty() && stack.peek().getLevel() >= node.getSequence().getLevel()) {
+        stack.pop();
+      }
+
+      stack.peek().addChild(node);
+
+      if (stack.peek().getLevel() < node.getSequence().getLevel()) {
+        stack.push(node);
       }
     }
 
     return root;
   }
 
-  private int nextId() {
-    return ++this.id;
-  }
-
-  private void addChildren(Node node, int level, int deepLevel, int numberOfLeafNodesPerLevel) {
-    if(level<=deepLevel){
-      Node child = new Node(level, new Document(nextId()));
-      node.addChild(child);
-      addChildren(child,level+1,deepLevel, numberOfLeafNodesPerLevel);
-    } else if(node.getChildCount() < numberOfLeafNodesPerLevel){
-      Node child = new Node(level, new Document(nextId()));
-      node.addChild(child);
-      addChildren(node, level ,deepLevel, numberOfLeafNodesPerLevel);
-    }
-  }
 }

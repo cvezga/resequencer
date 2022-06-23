@@ -1,27 +1,38 @@
 package sequencer.tree;
 
-import sequencer.Document;
-import sequencer.Sequence;
+import sequencer.entity.Document;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class AbstractDocumentTest {
 
-  protected List<Document> getDocuments(){
+  protected List<Document> getDocuments() {
     List<Document> documents = new ArrayList<>();
 
-    Node root = new TreeBuilder().build(3,3,3);
-    List<Sequence> sequences = SequenceBuilder.getSequence(root);
-
-    AtomicInteger docId= new AtomicInteger(1000);
-    sequences.stream().forEach( seq -> {
-      Document document = new Document(docId.getAndIncrement());
-      document.setSequence(seq);
-      documents.add(document);
-    } );
+    documents.add(newDocument(1, "1"));
+    documents.add(newDocument(2, "1.1"));
+    documents.add(newDocument(3, "1.1.1"));
+    documents.add(newDocument(4, "1.1.2"));
+    documents.add(newDocument(5, "2"));
+    documents.add(newDocument(6, "2.1"));
+    documents.add(newDocument(7, "2.1.1"));
+    documents.add(newDocument(8, "2.1.2"));
+    documents.add(newDocument(9, "2.2"));
+    documents.add(newDocument(10, "2.2.1"));
+    documents.add(newDocument(11, "2.122"));
+    documents.add(newDocument(12, "3"));
+    documents.add(newDocument(13, "3.1"));
+    documents.add(newDocument(14, "3.1.1"));
+    documents.add(newDocument(15, "3.1.2"));
 
     return documents;
   }
+
+  protected Document newDocument(int id, String stringSequence) {
+    Document document = new Document(id);
+    document.setSequence(stringSequence);
+    return document;
+  }
+
 }

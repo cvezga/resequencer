@@ -1,4 +1,4 @@
-package sequencer;
+package sequencer.tree;
 
 public class Sequencer {
 
@@ -43,6 +43,6 @@ public class Sequencer {
   }
 
   public int getLevel() {
-    return this.idx+1;
+    return this.idx + 1;
   }
 }

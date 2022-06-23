@@ -1,48 +1,54 @@
 package sequencer.tree;
 
-import sequencer.Document;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class Node {
+public class Node<T> {
 
-    private Document document;
-    private int level;
-    private Node parent;
-    private List<Node> children;
+  private T t;
+  private Sequence sequence;
+  private Node parent;
+  private List<Node<T>> children;
 
-    public Node(int level, Document document){
-        this.level = level;
-        this.document = document;
+  public Node(Sequence sequence, T t) {
+    this.sequence = sequence;
+    this.t = t;
+  }
+
+  public void addChild(Node<T> node) {
+    if (children == null) {
+      children = new ArrayList<>();
     }
+    node.setParent(this);
+    children.add(node);
+  }
 
-    public void addChild(Node node) {
-        if(children == null) {
-            children = new ArrayList<>();
-        }
-        node.setParent(this);
-        children.add(node);
-    }
+  private void setParent(Node<T> parent) {
+    this.parent = parent;
+  }
 
-    private void setParent(Node parent) {
-        this.parent = parent;
-    }
+  public int getChildCount() {
+    if (this.children == null) return 0;
+    return this.children.size();
+  }
 
-    public int getChildCount() {
-        if(this.children == null) return 0;
-        return this.children.size();
-    }
+  public List<Node<T>> getChildNodes() {
+    return this.children;
+  }
 
-    public List<Node> getChildNodes() {
-        return this.children;
-    }
+  public int getLevel() {
+    return this.sequence.getLevel();
+  }
 
-    public int getLevel() {
-        return this.level;
-    }
+  public Sequence getSequence() {
+    return sequence;
+  }
 
-    public Document getDocument() {
-        return this.document;
-    }
+  public T get() {
+    return this.t;
+  }
+
+  public void setSequence(Sequence sequence) {
+    this.sequence = sequence;
+  }
 }

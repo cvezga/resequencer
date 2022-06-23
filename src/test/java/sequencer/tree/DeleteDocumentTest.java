@@ -1,13 +1,17 @@
 package sequencer.tree;
 
 import org.junit.jupiter.api.Test;
-import sequencer.Document;
-import sequencer.DocumentIndex;
 
+import sequencer.entity.Document;
+
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class DeleteDocumentTest extends AbstractDocumentTest {
 
@@ -16,24 +20,32 @@ public class DeleteDocumentTest extends AbstractDocumentTest {
   @Test
   public void shouldDeleteAndSequence() {
 
-    Node root = TreeDocumentBuilder.build(documents);
-    assertNotNull(documents);
+    Node root = new TreeBuilder<Document>().build(documents, (doc) -> doc.getSequence());
+    assertNotNull(root);
 
     //Inactivate some documents
-    DocumentIndex index = new DocumentIndex(documents);
-    Document doc21 = index.getDocumentByLevelKey("2.1");
-    Document doc313 = index.getDocumentByLevelKey("3.1.1");
+    NodeIndex index = new NodeIndex<Document>(root);
+    assertEquals(15, index.getValues().size());
+    Document doc21 = (Document) index.getNodeByStringSequence("2.1").get();
+    Document doc313 = (Document) index.getNodeByStringSequence("3.1.1").get();
     assertNotNull(doc21);
     assertNotNull(doc313);
     doc21.setActive(false);
     doc313.setActive(false);
 
     //Create new sequence
-    List<Document> documents2 = SequenceDocumentBuilder.getSequencedDocuments(root);
+    SequenceBuilder.getSequence(root);
 
-    DocumentIndex index2 = new DocumentIndex(documents2);
-    assertNull(index2.getDocumentById(doc21.getId()));
-    assertNull(index2.getDocumentById(doc313.getId()));
+    NodeIndex index2 = new NodeIndex<Document>(root);
+
+    Collection<Node<Document>> values = index2.getValues();
+
+
+    Set<Integer> set = values.stream().map(node -> node.get().getId()).collect(Collectors.toSet());
+    assertEquals(12, set.size());
+
+    assertFalse(set.contains(doc21.getId()));
+    assertFalse(set.contains(doc313.getId()));
 
   }
 
