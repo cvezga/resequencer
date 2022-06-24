@@ -4,6 +4,7 @@ import sequencer.entity.Document;
 import sequencer.tree.Node;
 import sequencer.tree.Sequencer;
 import sequencer.tree.TreeBuilder;
+import sequencer.util.Timer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +15,17 @@ public class DocumentSequencer {
 
   public static List<Document> sequence(List<Document> documents) {
 
-    Node<Document> root = new TreeBuilder<Document>()
-            .build(documents, doc -> doc.getSequence());
+    Timer t = new Timer();
 
+    t.start("Start TreeBuilder");
+    Node<Document> root = new TreeBuilder<Document>().build(documents, doc -> doc.getSequence());
+    t.end("End TreeBuilder");
+
+    t.start("Start fill sequencedDocuments");
     Sequencer sequencer = new Sequencer(DEEPEST_LEVEL);
     List<Document> sequencedDocuments = new ArrayList<>();
     root.getChildNodes().forEach(child -> fill(sequencedDocuments, sequencer, child));
+    t.end("End fill sequencedDocuments");
 
     return sequencedDocuments;
   }

@@ -8,37 +8,13 @@ public class Sequence {
   private int[] sequenceValues;
   private String sequenceString;
 
-  public Sequence(String sequenceString) {
-    this.sequenceValues = getSequenceValues(sequenceString);
-    this.sequenceString = sequenceString;
-  }
-
-  private int[] getSequenceValues(String sequenceString) {
-    if (sequenceString == null) return new int[0];
-    List<Integer> values = new ArrayList<>();
-    int idx = 0;
-    while (idx < sequenceString.length()) {
-      int idx2 = sequenceString.indexOf(".", idx);
-      if (idx2 > -1) {
-        String xvalue = sequenceString.substring(idx, idx2);
-        values.add(Integer.valueOf(xvalue));
-        idx = idx2 + 1;
-      } else {
-        String xvalue = sequenceString.substring(idx);
-        values.add(Integer.valueOf(xvalue));
-        break;
-      }
-    }
-    int[] sequenceValues = new int[values.size()];
-    for (int i = 0; i < values.size(); i++) {
-      sequenceValues[i] = values.get(i).intValue();
-    }
-    return sequenceValues;
-  }
-
   public Sequence(int[] sequenceValues, String sequenceString) {
     this.sequenceValues = sequenceValues;
     this.sequenceString = sequenceString;
+  }
+
+  public Sequence(int level) {
+    this.sequenceValues = new int[level];
   }
 
   public String getSequenceString() {
