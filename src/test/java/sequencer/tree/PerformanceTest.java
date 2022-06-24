@@ -26,9 +26,9 @@ public class PerformanceTest {
     Collections.reverse(documents);
 
     Timer t = new Timer();
-    t.start("Start DocumentSequencer.sequence()");
+    t.start("DocumentSequencer.sequence()");
     List<Document> sequencedDocuments = DocumentSequencer.sequence(documents);
-    t.end("End DocumentSequencer.sequence()");
+    t.end();
 
 
   }

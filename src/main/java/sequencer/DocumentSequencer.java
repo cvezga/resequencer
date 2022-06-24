@@ -17,15 +17,15 @@ public class DocumentSequencer {
 
     Timer t = new Timer();
 
-    t.start("Start TreeBuilder");
+    t.start("TreeBuilder");
     Node<Document> root = new TreeBuilder<Document>().build(documents, doc -> doc.getSequence());
-    t.end("End TreeBuilder");
+    t.end();
 
-    t.start("Start fill sequencedDocuments");
+    t.start("fill sequencedDocuments");
     Sequencer sequencer = new Sequencer(DEEPEST_LEVEL);
     List<Document> sequencedDocuments = new ArrayList<>(documents.size());
     root.getChildNodes().forEach(child -> fill(sequencedDocuments, sequencer, child));
-    t.end("End fill sequencedDocuments");
+    t.end();
 
     return sequencedDocuments;
   }

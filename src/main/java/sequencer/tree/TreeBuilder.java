@@ -18,7 +18,7 @@ public class TreeBuilder<T> {
 
     Timer tm = new Timer();
 
-    tm.start("Start Node create iterator");
+    tm.start("Node create iterator");
     List<Node<T>> nodes = new ArrayList<>(list.size());
     for (T t : list) {
       String stringSequence = stringSequenceSupplier.apply(t);
@@ -26,14 +26,14 @@ public class TreeBuilder<T> {
       Node<T> n = new Node(sequence, t);
       nodes.add(n);
     }
-    tm.end("End Node create iterator");
+    tm.end();
 
     //Sort documents by its sequence
-    tm.start("Start Sort Nodes");
+    tm.start("Sort Nodes");
     Collections.sort(nodes, new NodeComparator());
-    tm.end("End Sort Nodes");
+    tm.end();
 
-    tm.start("Start stack tree build");
+    tm.start("Stack tree build");
     Stack<Node> stack = new Stack<>();
     stack.push(root);
 
@@ -48,7 +48,7 @@ public class TreeBuilder<T> {
         stack.push(node);
       }
     }
-    tm.end("End stack tree build");
+    tm.end();
 
     return root;
   }
