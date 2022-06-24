@@ -7,7 +7,7 @@ public class Document {
   private String sequence;
   private boolean active;
 
-  public Document(int id){
+  public Document(int id) {
     this.id = id;
     this.active = true;
   }
@@ -38,5 +38,15 @@ public class Document {
 
   public void setActive(boolean active) {
     this.active = active;
+  }
+
+  @Override
+  public String toString() {
+    return "Document{" +
+            "id=" + id +
+            ", order=" + order +
+            ", sequence='" + sequence + '\'' +
+            ", active=" + active +
+            '}';
   }
 }

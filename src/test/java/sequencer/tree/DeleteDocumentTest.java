@@ -2,8 +2,10 @@ package sequencer.tree;
 
 import org.junit.jupiter.api.Test;
 
+import sequencer.DocumentSequencer;
 import sequencer.entity.Document;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -15,37 +17,36 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class DeleteDocumentTest extends AbstractDocumentTest {
 
-  List<Document> documents = getDocuments();
-
   @Test
-  public void shouldDeleteAndSequence() {
+  public void shouldSequenceDocumentsAfterDeletions() {
 
-    Node root = new TreeBuilder<Document>().build(documents, (doc) -> doc.getSequence());
-    assertNotNull(root);
+    List<Document> originalDocuments = getDocuments();
 
-    //Inactivate some documents
-    NodeIndex index = new NodeIndex<Document>(root);
-    assertEquals(15, index.getValues().size());
-    Document doc21 = (Document) index.getNodeByStringSequence("2.1").get();
-    Document doc313 = (Document) index.getNodeByStringSequence("3.1.1").get();
-    assertNotNull(doc21);
-    assertNotNull(doc313);
-    doc21.setActive(false);
-    doc313.setActive(false);
+    List<Integer> docsIdToInactivate = Arrays.asList(30, 130, 180, 210);
 
-    //Create new sequence
-    SequenceBuilder.getSequence(root);
-
-    NodeIndex index2 = new NodeIndex<Document>(root);
-
-    Collection<Node<Document>> values = index2.getValues();
+    originalDocuments.stream()
+            .filter(doc -> docsIdToInactivate.contains(doc.getId()))
+            .forEach(doc -> doc.setActive(false));
 
 
-    Set<Integer> set = values.stream().map(node -> node.get().getId()).collect(Collectors.toSet());
-    assertEquals(12, set.size());
+    long count = originalDocuments.stream().filter(doc -> !doc.isActive()).count();
 
-    assertFalse(set.contains(doc21.getId()));
-    assertFalse(set.contains(doc313.getId()));
+    assertEquals(4, count);
+
+    List<Document> sequencedDocuments = DocumentSequencer.sequence(originalDocuments);
+
+    List<Document> expectedDocumentsAfterSequenced = getExpectedDocumentsAfterSequenced();
+
+    assertEquals(expectedDocumentsAfterSequenced.size(), sequencedDocuments.size());
+
+    for (int i = 0; i < expectedDocumentsAfterSequenced.size(); i++) {
+      Document d1 = expectedDocumentsAfterSequenced.get(i);
+      Document d2 = sequencedDocuments.get(i);
+      assertEquals(d1.getId(), d2.getId());
+      assertEquals(d1.getOrder(), d2.getOrder());
+      assertEquals(d1.getSequence(), d2.getSequence());
+      assertEquals(d1.isActive(), d2.isActive());
+    }
 
   }
 
