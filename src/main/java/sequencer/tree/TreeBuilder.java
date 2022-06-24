@@ -19,7 +19,7 @@ public class TreeBuilder<T> {
     Timer tm = new Timer();
 
     tm.start("Start Node create iterator");
-    List<Node<T>> nodes = new ArrayList<>();
+    List<Node<T>> nodes = new ArrayList<>(list.size());
     for (T t : list) {
       String stringSequence = stringSequenceSupplier.apply(t);
       Sequence sequence = sequenceFactory.getInstance(stringSequence);

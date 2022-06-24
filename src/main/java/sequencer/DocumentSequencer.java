@@ -23,7 +23,7 @@ public class DocumentSequencer {
 
     t.start("Start fill sequencedDocuments");
     Sequencer sequencer = new Sequencer(DEEPEST_LEVEL);
-    List<Document> sequencedDocuments = new ArrayList<>();
+    List<Document> sequencedDocuments = new ArrayList<>(documents.size());
     root.getChildNodes().forEach(child -> fill(sequencedDocuments, sequencer, child));
     t.end("End fill sequencedDocuments");
 

@@ -1,8 +1,5 @@
 package sequencer.tree;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Sequence {
 
   private int[] sequenceValues;
